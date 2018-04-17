@@ -37,8 +37,8 @@ BITBUCKET_BRANCHS="https://api.bitbucket.org/2.0/repositories/$BBPR_ID/$BBPR_REP
 BITBUCKET_PULLREQUEST="https://api.bitbucket.org/2.0/repositories/$BBPR_ID/$BBPR_REPO/pullrequests"
 ##############################--PATCHING --- ############################################
 $(curl -sS -H "Content-Type: application/json" -u $BBPR_EMAIL:$BBPR_PASS  $BITBUCKET_BRANCHS > $BRANCH_FILE)
-SIZE=1 #$(grep -Po '"size": \d+' $BRANCH_FILE | sed 's/"size": \(\)/\1/g')
-PAGELEN=10 #$(grep -Po '"pagelen": \d+' $BRANCH_FILE | sed 's/"pagelen": \(\)/\1/g')
+SIZE=$(grep -Po '"size": \d+' $BRANCH_FILE | sed 's/"size": \(\)/\1/g')
+PAGELEN=$(grep -Po '"pagelen": \d+' $BRANCH_FILE | sed 's/"pagelen": \(\)/\1/g')
 echo "Total is $SIZE"
 echo "Max Per Page is $PAGELEN"
 LOOPER=$(echo `/usr/bin/perl -w -e "use POSIX; print ceil($SIZE/$PAGELEN), qq{\n}"`)
@@ -48,13 +48,14 @@ then
       exit 1;
 fi
 echo "LOOPING UPTO $LOOPER"
+$(truncate -s 0 $BRANCH_FILE)
 for ((i=1; i<=$LOOPER; i++))
 do
    echo $i
-   # rest of your code
+   echo $BITBUCKET_BRANCHS"?page=$i"
+   $(curl -sS -H "Content-Type: application/json" -u $BBPR_EMAIL:$BBPR_PASS  $BITBUCKET_BRANCHS"?page=$i" |grep -P '"type": "branch", "name": "release[\w\/.\-]+",' -o | sed 's/"type": "branch", "name": "\([[:alpha:][:digit:]\/\.\-]\+\)",/\1/g' >>  $BRANCH_FILE)
 done
-exit 1;
-$(curl -sS -H "Content-Type: application/json" -u $BBPR_EMAIL:$BBPR_PASS  $BITBUCKET_BRANCHS |grep -P '"type": "branch", "name": "release[\w\/.]+",' -o | sed 's/"type": "branch", "name": "\([[:alpha:][:digit:]\/\.]\+\)",/\1/g' >  $BRANCH_FILE)
+#$(curl -sS -H "Content-Type: application/json" -u $BBPR_EMAIL:$BBPR_PASS  $BITBUCKET_BRANCHS |grep -P '"type": "branch", "name": "release[\w\/.]+",' -o | sed 's/"type": "branch", "name": "\([[:alpha:][:digit:]\/\.]\+\)",/\1/g' >>  $BRANCH_FILE)
 if grep -qF "$CURRBRANCH" $BRANCH_FILE;then
    echo "SUCCESSFULLY VALIDATED BRANCH [ $CURRBRANCH ]"
 else
