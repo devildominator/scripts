@@ -1,0 +1,16 @@
+cd /opt
+wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
+apt-get install unzip -y
+unzip sdk-tools-linux-3859397.zip -d android-sdk-linux
+chown -R jenkins:jenkins android-sdk-linux/
+su - jenkins
+cd
+nano .bashrc
+export ANDROID_HOME="/opt/android-sdk-linux"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+echo $ANDROID_HOME
+exit
+export ANDROID_HOME="/opt/android-sdk-linux"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+android update sdk --no-ui
+
