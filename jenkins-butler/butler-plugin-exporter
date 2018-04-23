@@ -1,0 +1,19 @@
+#!/bin/bash
+# ./plugin-exporter localhost:8080 admin Taco@bell135#$
+if ! type butler > /dev/null; then
+  echo "Installer butler by using bulter installer first"
+  exit 1;
+fi
+if [ "$#" -eq 0 ]
+then
+	echo $'[Source Jenkins] exporter will export all the plugins \nuse as :: butler-plugin-exporter jenkinsserver-A username password'
+	exit 1;
+fi
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ];
+then
+    echo "Please provide Jenkins A [Source] SOCKET as localhost:8080 username password "
+    exit 1;
+fi
+cd /tmp/
+butler plugins export --server $1 --username $2 --password $3
+echo "Successfully exported @ /tmp/"

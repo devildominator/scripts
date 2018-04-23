@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "THIS TOOL WILL FETCH THE PLUGINS FROM SOURCE JENKINS SERVER -- Kindly run this script on destination jenkins"
+while [[ -z "$serverip" ]]
+do
+	read -p "ENTER SERVER IP :" serverip
+done
+while [[ -z "$serveruser" ]]
+do
+	read -p "ENTER SERVER USER :" serveruser
+done
+read -p "PEM KEY ? (Y/N)" options
+case "$options" in
+y|Y) 
+     while [[ -z "$pemkey" ]]
+     do
+	     read -p "ENTER PEM KEY PATH :" pemkey 
+     done
+     $(scp -r -i $pemkey "$serveruser@$serverip:/tmp/plugins.txt" /tmp/)
+	;;
+*)
+     $(scp -r "$serveruser@$serverip:/tmp/plugins.txt" /tmp/)
+     ;;
+esac
+echo "SUCCESSFULLY FETCHED THE plugins from $serverip"

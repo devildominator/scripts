@@ -1,0 +1,19 @@
+#!/bin/bash
+# ./plugin-importer localhost:8080 admin Taco@bell135#$
+if ! type butler > /dev/null; then
+  echo "Installer butler by using bulter installer first"
+  exit 1;
+fi
+if [ "$#" -eq 0 ]
+then
+	echo $'[Destination Jenkins] importer will import all the plugins \nuse as :: butler-plugin-importer jenkinsserver-B username password'
+	exit 1;
+fi
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ];
+then
+    echo "Please provide Jenkins B [Destination] SOCKET as localhost:8080 username password "
+    exit 1;
+fi
+cd /tmp/
+butler plugins import --server $1 --username $2 --password $3
+echo "Successfully imported @ /tmp/"
