@@ -18,6 +18,9 @@ y|Y)
 	for i in $(apt-cache depends $1 | grep -E 'Depends|Recommends|Suggests' | cut -d ':' -f 2,3 | sed -e s/'<'/''/ -e s/'>'/''/); do sudo apt-get download $i 2>>errors.txt; done
 	apt-get download $1
 	;;
+	#dpkg --add-architecture i386
+	#for i in $(apt-cache depends python:i386 | grep -E 'Depends|Recommends|Suggests' | cut -d ':' -f 2,3 | sed -e s/'<'/''/ -e s/'>'/''/); do sudo apt-get download $i 2>>errors.txt; done
+	# above will be used to download 32 bit version of packages -- on 64 bit OS
 *)
 	rm -rf /var/cache/apt/archives/*.deb
 	aptitude --download-only install $1 
