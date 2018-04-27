@@ -1,0 +1,13 @@
+E: Can't find a source to download version '2:7.4.1689-3ubuntu1.2' of 'vim-common:amd64'
+E: Can't find a source to download version '2:7.4.1689-3ubuntu1.2' of 'vim-runtime:amd64'
+E: Can't find a source to download version '2:7.4.1689-3ubuntu1.2' of 'vim-common:amd64'
+E: Can't find a source to download version '2:7.4.1689-3ubuntu1.2' of 'vim-runtime:amd64'
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/libacl1_2.2.52-3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+E: Can't find a source to download version '2.23-0ubuntu10' of 'libc6:amd64'
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/libgpm2_1.20.4-6.1_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+E: Can't find a source to download version '3.5.2-2ubuntu0~16.04.4' of 'libpython3.5:amd64'
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/libselinux1_2.4-3build2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/libtinfo5_6.0+20160213-1ubuntu1_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+E: Can't select candidate version from package ctags as it has no candidate
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/vim-doc_2%3a7.4.1689-3ubuntu1_all.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/vim/vim-scripts_20130814ubuntu1_all.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)

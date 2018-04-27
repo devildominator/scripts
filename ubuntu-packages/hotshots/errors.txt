@@ -1,0 +1,16 @@
+E: Can't find a source to download version '2.23-0ubuntu10' of 'libc6:amd64'
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libgcc1_1%3a6.0.1-0ubuntu1_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libqt4-network_4%3a4.8.7+dfsg-5ubuntu2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libqt4-xml_4%3a4.8.7+dfsg-5ubuntu2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libqtcore4_4%3a4.8.7+dfsg-5ubuntu2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libqtgui4_4%3a4.8.7+dfsg-5ubuntu2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libqxt-gui0_0.6.2-3_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+E: Can't find a source to download version '5.4.0-6ubuntu1~16.04.9' of 'libstdc++6:amd64'
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libx11-6_2%3a1.6.3-1ubuntu2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+W: Can't drop privileges for downloading as file '/home/gopeshchaudhary/Downloads/root/root/experiment_aws_kushank/bashwork/ubuntu-packages/libxfixes3_1%3a5.0.1-2_amd64.deb' couldn't be accessed by user '_apt'. - pkgAcquire::Run (13: Permission denied)
+E: Can't find a source to download version '2.23-0ubuntu10' of 'libc6:amd64'
+E: Can't find a source to download version '5.4.0-6ubuntu1~16.04.9' of 'libstdc++6:amd64'
+E: Can't find a source to download version '2.23-0ubuntu10' of 'libc6:amd64'
+E: Can't find a source to download version '5.4.0-6ubuntu1~16.04.9' of 'libstdc++6:amd64'
+E: Can't find a source to download version '2.23-0ubuntu10' of 'libc6:amd64'
+E: Can't find a source to download version '5.4.0-6ubuntu1~16.04.9' of 'libstdc++6:amd64'

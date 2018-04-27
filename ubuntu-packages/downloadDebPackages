@@ -1,0 +1,29 @@
+#!/bin/bash
+if ! type 'aptitude' 2>/dev/null; 
+then
+  apt install aptitude -y
+fi
+if [ -z "$1" ];
+then
+	echo "Please provide package name as parameter"
+        exit 1;
+fi
+mkdir $1
+cd $1
+read -p "ALREADY INSTALLED (Y/N) ?" OPTIONS
+case "$OPTIONS" in
+y|Y)
+	rm -rf /var/lib/update-notifier/package-data-downloads/partial/*
+	apt-get update
+	for i in $(apt-cache depends $1 | grep -E 'Depends|Recommends|Suggests' | cut -d ':' -f 2,3 | sed -e s/'<'/''/ -e s/'>'/''/); do sudo apt-get download $i 2>>errors.txt; done
+	apt-get download $1
+	;;
+*)
+	aptitude --download-only install $1 
+	#apt-get install --download-only <package_name>
+	#dpkg -i *
+	echo "IF ALREADY INSTALLED use --reinstall option or  apt-get --purge remove package1 &&  apt-get install package1"
+	#dpkg -c <pack>   -- list contents of deb packages
+	#apt-cache depends  $1
+	;;
+esac
