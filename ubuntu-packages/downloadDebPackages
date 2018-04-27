@@ -19,8 +19,10 @@ y|Y)
 	apt-get download $1
 	;;
 *)
+	rm -rf /var/cache/apt/archives/*.deb
 	aptitude --download-only install $1 
 	#apt-get install --download-only <package_name>
+	mv /var/cache/apt/archives/*.deb .
 	#dpkg -i *
 	echo "IF ALREADY INSTALLED use --reinstall option or  apt-get --purge remove package1 &&  apt-get install package1"
 	#dpkg -c <pack>   -- list contents of deb packages
