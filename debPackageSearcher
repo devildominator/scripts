@@ -1,0 +1,22 @@
+#!/bin/bash
+if [ -z "$1" ]
+then
+	echo "Please provide the command/file/package as param "
+	exit 1
+fi
+(
+echo -e "\n\n\nCHECKING LOCALLY ( CURRENT MACHINE ) FOR -- AVAILABLE\n\n\n\n\n"
+dpkg -S $1
+echo -e "\n\n\n\n\nCHECKING GLOBALLY ( APP REPOSITORY ) FOR COMMAND AVAILABLE\n\n\n"
+if ! type 'apt-file' 2>/dev/null ; then 
+	echo "apt-file NOT INSTALLED"
+	if [ "$EUID" -eq 0 ];then
+		apt install apt-file
+		apt-file update
+	else
+		echo "NEED ROOT LOGIN -- fix apt-file"
+		exit 1
+        fi
+fi
+apt-file search $1
+) | less

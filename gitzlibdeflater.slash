@@ -1,0 +1,22 @@
+#!/bin/bash
+#http://zlib.net/pigz/
+#wget http://zlib.net/pigz/pigz-2.4.tar.gz -O /opt/pigz.tar.gz
+#zlib-flate -uncompress < FILE
+#zlib-flate can be found in package qpdf (in Debian Squeeze and Fedora 23
+if ! type zlcat 2> /dev/null ;
+then
+	cp -rf $0 /bin/zlcat
+	chmod +x /bin/zlcat
+	echo "installed as command 'zlcat'"
+fi
+if ! type zlib-flate 2> /dev/null ;
+then
+	echo "zlib-flate not found -- kindly install qpdf ( apt install qpdf ) ( dnf install qpdf )"
+	exit 3
+fi
+if [ -z "$1" ]
+then
+	echo "Please supply zlib compressed file"
+	exit 2
+fi
+zlib-flate -uncompress < $1 
