@@ -1,0 +1,34 @@
+#!/bin/bash
+JENKINSHOST="64.150.178.216"  							   # IP OR DOMAIN OF JENKINS URL
+RSYNCUSER="root"	  							   # RSYNC USER NAME
+JENKINSID="master"    								   # SLAVE OR MASTER
+JENKINSTYPE="ci"  								   # CI/CD
+CONFIGDIR="jenkins_"$JENKINSID"_backup_$JENKINSTYPE" 				   # MAIN CONFIG XML FILE BACKUP
+PLUGINDIR="jenkins_"$JENKINSID"_plugins_$JENKINSTYPE"   			   # PLUGINS DUMP OF JENKINS  "plugins/"
+CREDENTIALSDIR="jenkins_"$JENKINSID"_credentials_$JENKINSTYPE"    		   # CREDENTIALS DUMP OF JENKINS 
+JOBSDIR="jenkins_"$JENKINSID"_jobs_$JENKINSTYPE"    				   # ALL CONFIGURED JOBS "jobs/"
+EXTRASDIR="jenkins_"$JENKINSID"_others_$JENKINSTYPE"   				   # ALL EXTRA IMPORTANT "keystores/artifacts etc UserRelated"
+checkifdirexists(){
+if [ ! -d "$1" ];then
+	echo "Creating :: $1"
+	mkdir -p $1
+else
+	echo "found :: $1"
+fi
+}
+checkifdirexists $CONFIGDIR
+checkifdirexists $PLUGINDIR
+checkifdirexists $CREDENTIALSDIR
+checkifdirexists $JOBSDIR
+checkifdirexists $EXTRASDIR
+dorsync(){
+echo "--------------------- PULLING FOR :: $4"
+rsync -auvvr --progress $1@$2$3 $4
+}
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/config.xml" $CONFIGDIR
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/plugins/*.jpi" $PLUGINDIR
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/secrets :/var/lib/jenkins/credentials.xml" $CREDENTIALSDIR
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/jobs/*" $JOBSDIR
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/keystore.p12" $EXTRASDIR
+echo "*!!!@@@@*************************************>>><< DONE >><<<****************************************@@@@!!!"
+exit;
