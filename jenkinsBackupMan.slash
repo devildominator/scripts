@@ -29,6 +29,6 @@ dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/config.xml" $CONFIGDIR
 dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/plugins/*.jpi" $PLUGINDIR
 dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/secrets :/var/lib/jenkins/credentials.xml" $CREDENTIALSDIR
 dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/jobs/*" $JOBSDIR
-dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/keystore.p12" $EXTRASDIR
+dorsync $RSYNCUSER $JENKINSHOST ":/var/lib/jenkins/keystore.p12 :/var/lib/jenkins/email-templates" $EXTRASDIR
 echo "*!!!@@@@*************************************>>><< DONE >><<<****************************************@@@@!!!"
 exit;
