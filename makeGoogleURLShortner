@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Usage: goo.gl [URL]
+#
+# Shorten a URL using the Google URL Shortener service (http://goo.gl).
+# For API KEY : Follow ( https://developers.google.com/url-shortener/v1/getting_started ) For API KEY Generation
+GOOGLEAPIKEY=""
+goo.gl() {
+	[[ ! $1 ]] && { echo -e "Usage: goo.gl [URL]\n\nShorten a URL using the Google URL Shortener service (http://goo.gl)."; return; }
+	[[ ! $GOOGLEAPIKEY ]] && { echo -e "Please set the valid API KEY in file, reference:(https://developers.google.com/url-shortener/v1/getting_started)."; return; }
+	curl -qsSL -m10 --connect-timeout 10 'https://www.googleapis.com/urlshortener/v1/url?key='$GOOGLEAPIKEY -H 'Content-Type: application/json' -d '{"longUrl":"'${1//\"/\\\"}'"}' | perl -ne 'if(m/^\s*"id":\s*"(.*)",?$/i) { print $1 }' 
+}
+goo.gl $@
