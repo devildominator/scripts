@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Usage: rebrandly [URL]
+#
+# Shorten a URL using the Rebrandly URL Shortener service (https://www.rebrandly.com/).
+# For API KEY : Follow ( https://app.rebrandly.com/account/api-keys ) For API KEY Generation
+REBRANDLYAPIKEY=""
+rebrandly() {
+	[[ ! $1 ]] && { echo -e "Usage: rebrandly [URL]\n\nShorten a URL using the Rebrandly URL Shortener service (https://www.rebrandly.com)."; return; }
+	[[ ! $REBRANDLYAPIKEY ]] && { echo -e "Please set the valid API KEY in file, reference:(https://app.rebrandly.com/account/api-keys)."; return; }
+
+curl -qsSL -m10 --connect-timeout 10 'https://api.rebrandly.com/v1/links' -H 'Content-Type: application/json'  -H 'apikey: '$REBRANDLYAPIKEY -d '{"destination":"'${1//\"/\\\"}'","domain":{"fullName":"rebrand.ly"}}' perl -ne 'if(m/,"shortUrl":\s*"(.*)","domainId/i) { print "$1\n" }'
+}
+rebrandly $@
