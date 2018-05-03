@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Usage: thelinkla [URL]
+#
+# Shorten a URL using the Thelink.la URL Shortener service (http://thelink.la/).
+thelinkla() {
+	[[ ! $1 ]] && { echo -e "Usage: thelinkla [URL]\n\nShorten a URL using the Rebrandly URL Shortener service (http://thelink.la)."; return; }
+
+curl -qsSL -m10 --connect-timeout 10 'http://thelink.la/api-shorten.php?url='${1//\"/\\\"} | perl -ne 'if(m/(.*)/i) { print "$1\n" }'
+}
+thelinkla $@
