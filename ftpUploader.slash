@@ -1,0 +1,64 @@
+#!/bin/bash
+# loop & print a folder recusively,
+PROCESSING_DIR=""
+LOCAL_DIR=""
+print_folder_recurse() {
+    for i in "$1"/*;do
+        if [ -d "$i" ];then
+	    relpath=`realpath --relative-to="$FOLDERPATH" "$i"`
+            PROCESSING_DIR="$REMOTEFOLDER/$relpath"
+	    LOCAL_DIR=$i
+            echo "dir($relpath): processing"
+	    do_ftp "dir" $PROCESSING_DIR
+            print_folder_recurse "$i"
+        elif [ -f "$i" ]; then
+	    filename=`realpath --relative-to="$1" "$i"`
+            echo "file($filename): processing"
+            do_ftp "file" $PROCESSING_DIR $LOCAL_DIR $filename
+        fi
+    done
+}
+
+do_ftp(){
+case "$1" in
+"dir")
+	ftp -in <<EOF
+	open $HOSTNAME
+	user $USERNAME $PASSWORD
+	mkdir $2
+	close
+	bye
+EOF
+echo  "SUCCESS : DIR"
+;;
+"file")
+	ftp -in <<EOF
+        open $HOSTNAME
+        user $USERNAME $PASSWORD
+	cd $2
+	lcd $3
+	mput $4
+	close
+	bye
+EOF
+echo "SUCCESS : FILE"
+;;
+esac
+}
+
+read -p "Enter HOSTNAME:" HOSTNAME
+read -p "Enter USERNAME:" USERNAME
+read -p "Enter PASSWORD:" PASSWORD
+read -p "Enter LOCAL FOLDER PATH:" FOLDERPATH
+read -p "Enter REMOTE FOLDER PATH:" REMOTEFOLDER
+
+# try get path from param
+path=""
+if [ -d "$1" ]; then
+    path=$1;
+else
+    path="$FOLDERPATH"
+fi
+
+echo "local base path -: $path"
+print_folder_recurse $path
