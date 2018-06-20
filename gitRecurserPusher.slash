@@ -6,8 +6,8 @@ loop_file(){
 	while read p; do
 	  (( ++COUNTER ))
 	  COMMENT="[ $COUNTER ]:rocket: $COMMENT_INP"
-	  echo -e "----- # $COUNTER # -----\nProcessing $p"
-	  do_commit $p $COMMENT
+	  echo -e "----- # $COUNTER # -----\nProcessing $p => WITH COMMENT -> $COMMENT"
+	  do_commit "$p" "$COMMENT"
           do_push
 	done < /tmp/filestopush.txt
 }
@@ -22,9 +22,9 @@ do_setconfig(){
 }
 
 do_push(){
-	echo "Counting Objects"
+	echo -e "\nCounting Objects"
 	git count-objects
-	echo "Pushing to production"
+	echo -e "\n\nPushing to production"
 	git push origin $BRANCHNAME
 }
 
@@ -34,6 +34,7 @@ do_commit(){
 }
 
 do_just_commit(){
+	git add `git status | grep modified | sed 's/\(.*modified:\s*\)//'`
 	git commit -m ":zap: $COMMENT_INP"
 }
 
@@ -110,13 +111,14 @@ menu(){
 	esac
 }
 
-read -p "Enter branch name : " BRANCHNAME
-read -p "Enter comment recurser : " COMMENT_INP
 
 # try get path from param
-path=""
 if [ -d ".git" ]; then
+    read -p "Enter branch name : " BRANCHNAME
     echo "git repository found"
+    echo -e "\nChecking Git status"
+    git status
+    read -p "Enter comment recurser : " COMMENT_INP
     menu
 else
     echo "Invalid git repo."
