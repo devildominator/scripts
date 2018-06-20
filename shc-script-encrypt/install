@@ -1,0 +1,14 @@
+#!/bin/bash
+wget http://www.datsi.fi.upm.es/~frosal/sources/shc-3.8.7.tgz
+tar xvfz shc-3.8.7.tgz
+cd shc-3.8.7
+make
+
+#Encrypt the Shell Script Using shc
+#./shc -f random.sh
+#Specifying Expiration Date for Your Shell Script
+# ./shc -e 31/12/2011 -f random.sh
+#Specifying Message along with expiration date
+#./shc -e 31/12/2011 -m "Contact admin@thegeekstuff.com for new version of this script" -f random.sh
+#Create Redistributable Encrypted Shell Scripts
+#./shc -v -r -T -f random.sh
