@@ -124,6 +124,7 @@ if [ -d ".git" ]; then
     menu
 else
     echo "Invalid git repo."
+    exit 1;
 fi
 
 #print_folder_recurse $path
