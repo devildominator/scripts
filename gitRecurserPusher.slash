@@ -34,8 +34,10 @@ do_commit(){
 }
 
 do_just_commit(){
+        COMMENT=":zap: $COMMENT_INP"
 	git add `git status | grep modified | sed 's/\(.*modified:\s*\)//'`
-	git commit -m ":zap: $COMMENT_INP"
+	echo -e "# -----\nProcessing files => WITH COMMENT -> $COMMENT"
+	git commit -m "$COMMENT"
 }
 
 do_fsck(){
