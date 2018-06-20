@@ -1,0 +1,126 @@
+#!/bin/bash
+# loop & print a folder recusively,
+COUNTER=0
+
+loop_file(){
+	while read p; do
+	  (( ++COUNTER ))
+	  COMMENT="[ $COUNTER ]:rocket: $COMMENT_INP"
+	  echo -e "----- # $COUNTER # -----\nProcessing $p"
+	  do_commit $p $COMMENT
+          do_push
+	done < /tmp/filestopush.txt
+}
+
+do_setconfig(){
+	echo "Setting Configuration"
+	git config http.postBuffer 524288000
+	echo "Setting index to 4"
+	git update-index --index-version 4
+	echo "Disabling GC"
+	git config gc.auto 0
+}
+
+do_push(){
+	echo "Counting Objects"
+	git count-objects
+	echo "Pushing to production"
+	git push origin $BRANCHNAME
+}
+
+do_commit(){
+	git add $1
+	git commit -am "$2"
+}
+
+do_just_commit(){
+	git commit -m ":zap: $COMMENT_INP"
+}
+
+do_fsck(){
+        git fsck
+}
+
+files_differ(){
+	comm -2 -3 /tmp/localfiles.txt /tmp/remotefiles.txt |tee /tmp/filestopush.txt
+	read -r -p "Are you sure? [y/N] " response
+	case "$response" in
+	    [yY][eE][sS]|[yY]) 
+		echo -e "PROCESSING COMMITS\n"
+		;;
+	    *)
+		exit 1
+		;;
+	esac
+}
+
+list_local(){
+	find . -type f -not -path '*/\.*' -printf '%P\n' |sort > /tmp/localfiles.txt
+}
+
+list_remote(){
+	# $1 FOR - pass for branch name
+	git ls-tree --name-only -r $BRANCHNAME |sort > /tmp/remotefiles.txt
+}
+
+files_delete(){
+	rm -rf /tmp/filestopush.txt /tmp/remotefiles.txt /tmp/localfiles.txt
+}
+
+menu(){
+	HEIGHT=15
+	WIDTH=40
+	CHOICE_HEIGHT=4
+	BACKTITLE="GIT-Man"
+	TITLE="GIT-MAN"
+	MENU="Choose one of the following options:"
+
+	OPTIONS=(1 "GIT-PUSH"
+		 2 "GIT-UPDATE"
+		 3 "GIT-CHECK")
+
+	CHOICE=$(dialog --clear \
+		        --backtitle "$BACKTITLE" \
+		        --title "$TITLE" \
+		        --menu "$MENU" \
+		        $HEIGHT $WIDTH $CHOICE_HEIGHT \
+		        "${OPTIONS[@]}" \
+		        2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+		1)
+		    echo "PROCESSING - PUSH"
+		    list_remote
+		    list_local
+		    files_differ
+		    do_setconfig
+		    loop_file
+		    files_delete
+		    ;;
+		2)
+		    echo "UPDATION UNDER PROGRESS"
+		    do_just_commit
+                    do_push
+		    ;;
+		3)
+		    echo "CHECKING GIT FILESYSTEM"
+		    do_fsck
+		    ;;
+	esac
+}
+
+read -p "Enter branch name : " BRANCHNAME
+read -p "Enter comment recurser : " COMMENT_INP
+
+# try get path from param
+path=""
+if [ -d ".git" ]; then
+    echo "git repository found"
+    menu
+else
+    echo "Invalid git repo."
+fi
+
+#print_folder_recurse $path
+
