@@ -1,4 +1,6 @@
 #!/bin/bash
+#(wget -O - pi.dk/3 || curl pi.dk/3/ || fetch -o - http://pi.dk/3) | bash
+
 wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2 -O ./GnuParallel.tar.bz2
 rm -rf GnuParallel.tar
 bunzip2 GnuParallel.tar.bz2
