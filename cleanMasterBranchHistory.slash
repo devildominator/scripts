@@ -1,0 +1,22 @@
+#!/bin/bash
+#this script reset the any branch history
+read -p "Branch to reset:" BRANCH
+
+# 1.Checkout
+git checkout --orphan latest_branch
+
+# 2.Add all the files
+git add -A
+
+read -p "Enter Fresh Commit Message:" COMMITMSG
+# 3.Commit the changes
+git commit -am "$COMMITMSG"
+
+# 4.Delete the branch
+git branch -D $BRANCH
+
+# 5.Rename the current branch to master
+git branch -m $BRANCH
+
+# 6.Finally, force update your repository
+git push -f origin $BRANCH
