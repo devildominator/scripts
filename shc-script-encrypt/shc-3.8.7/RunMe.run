@@ -1,0 +1,10 @@
+#!/bin/bash
+read -p "Enter the script (relative path):" SCRIPT	# READING THE NEW SCRIPT FILE
+if [ -z $SCRIPT ];
+then
+	echo "Invalid - Script Path"	        #RUNS WHEN FAILED TO GET A VALID FILE
+else
+	DIR="$(cd "$(dirname "$0")" && pwd)"   #GETS THE CURRENT WORKING DIRECTORY PATH
+        PATH=$DIR:$PATH
+        shc -v -r -T -f  "$SCRIPT"		# COMPILING THE SCRIPT AND OUTPUTING IN THE SAME DIR
+fi
