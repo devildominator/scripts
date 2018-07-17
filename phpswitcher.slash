@@ -1,0 +1,48 @@
+# This will help to  switch the php version
+
+PS3='Please enter your choice: '
+options=("PHP 5.6 => PHP 7.2" "PHP 7.2 => PHP 5.6" "Install PHP" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "PHP 5.6 => PHP 7.2")
+	    php -v
+            echo "switching php version 5.6 to 7.2"
+	    sudo a2dismod php5.6
+	    sudo a2enmod php7.2
+            sudo service apache2 restart
+	    sudo update-alternatives --set php /usr/bin/php7.2
+            sudo update-alternatives --set phpize /usr/bin/phpize7.2
+            sudo update-alternatives --set php-config /usr/bin/php-config7.2
+	    php -v
+            ;;
+        "PHP 7.2 => PHP 5.6")
+	    php -v
+            echo "switching php version 7.2 to 5.6"
+            sudo a2dismod php7.2
+            sudo a2enmod php5.6
+            sudo service apache2 restart
+            sudo update-alternatives --set php /usr/bin/php5.6
+            sudo update-alternatives --set phpize /usr/bin/phpize5.6
+            sudo update-alternatives --set php-config /usr/bin/php-config5.6
+	    php -v
+	    ;;
+        "Install PHP")
+            echo "Installing PHP"
+	    sudo apt-get install python-software-properties
+	    sudo add-apt-repository ppa:ondrej/php
+            sudo apt-get update
+            sudo apt-get install -y php5.6
+	    php -v 
+            sudo apt-get install python-software-properties
+            sudo add-apt-repository ppa:ondrej/php
+            sudo apt-get update
+            sudo apt-get install -y php7.2
+            php -v 
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
